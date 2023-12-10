@@ -4,8 +4,10 @@ import axios from "axios";
 import "primeicons/primeicons.css";
 import { Menubar } from "primereact/menubar";
 import { getData } from "../../controller/movieController";
+import { PostCard } from "./styles";
+import ModalView from "../../components/Modal/ModalView";
 
-interface Movie {
+export interface Movie {
   title: string;
   releaseYear: string;
   genre: string;
@@ -16,6 +18,8 @@ interface Movie {
 
 function Movies() {
   const [dados, setDados] = useState();
+  const [visibility, setVisibility] = useState<boolean>(false);
+  const [dadosModal, setDadosModal] = useState<Movie>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,7 +37,14 @@ function Movies() {
   const gridItem = (movies: Movie) => {
     return (
       <div className="col-12 sm:col-6 lg:col-4 xl:col-2 p-3">
-        <div className="p-0">
+        <PostCard
+          className="p-0"
+          onClick={() => {
+            setVisibility(true);
+            console.log("testando", visibility);
+            setDadosModal(movies);
+          }}
+        >
           <div className="flex flex-column align-items-center gap-3">
             <img
               className=" shadow-2 border-round"
@@ -42,17 +53,20 @@ function Movies() {
               }}
               src={`${movies.image}`}
             />
-            <div className="text-2xl font-bold" style={{ textAlign: "center" }}>
+            <div
+              className="text-base sm:text-lg xl:text-lg font-semibold "
+              style={{ textAlign: "center" }}
+            >
               {movies.title}
             </div>
           </div>
           <div className="flex align-items-center justify-content-center">
-            <span className="text-2xl flex align-items-center justify-content-between">
+            <span className="text-base sm:text-lg xl:text-1xl flex align-items-center justify-content-between">
               <i className="pi pi-star mr-2" style={{ fontSize: "1.2rem" }}></i>
               {movies.rating}
             </span>
           </div>
-        </div>
+        </PostCard>
       </div>
     );
   };
@@ -89,11 +103,23 @@ function Movies() {
     },
   ];
 
+  const fecharModalView = () => {
+    console.log("Função do pai executada!");
+    setVisibility(false);
+  };
+
   return (
     <>
       <Menubar model={items} />
       <div className="card">
         <DataView value={dados} itemTemplate={itemTemplate} layout={"grid"} />
+        {visibility ? (
+          <ModalView
+            movie={dadosModal}
+            visibilidade={visibility}
+            fecharModalView={fecharModalView}
+          />
+        ) : null}
       </div>
     </>
   );
