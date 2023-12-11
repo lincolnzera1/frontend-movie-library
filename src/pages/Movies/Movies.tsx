@@ -9,7 +9,8 @@ import ModalView from "../../components/ModalView/ModalView";
 import { Button } from "primereact/button";
 import ModalEdit from "../../components/ModalEdit/ModalEdit";
 import ModalAdd from "../../components/ModalAdd/ModalAdd";
-import MenuItems from "../../components/HomeMenu/MenuItems";
+import MenuItems from "../../components/HeaderBar/MenuItems";
+import Appbar from "../../components/HeaderBar/Appbar";
 
 export interface Movie {
   id?: number;
@@ -140,7 +141,7 @@ function Movies() {
 
   return (
     <>
-      <Menubar model={MenuItems()} />
+      <Appbar />
       <div className="card">
         <DataView value={dados} itemTemplate={itemTemplate} layout={"grid"} />
         {visibility ? (

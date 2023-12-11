@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { AddMoviesBackground } from "./AddMoviesStyles";
-import MenuItems from "../../components/HomeMenu/MenuItems";
+import MenuItems from "../../components/HeaderBar/MenuItems";
 import { Menubar } from "primereact/menubar";
 import { InputText } from "primereact/inputtext";
 import { InputMask } from "primereact/inputmask";
 import { Button } from "primereact/button";
 import { Movie } from "../Movies/Movies";
 import { addNewMovie } from "../../controller/movieController";
+import Appbar from "../../components/HeaderBar/Appbar";
 
 const AddMovies = () => {
   const [title, setTitle] = useState<string>("");
@@ -39,7 +40,7 @@ const AddMovies = () => {
 
   return (
     <AddMoviesBackground>
-      <Menubar model={MenuItems()} />
+      <Appbar />
       <div
         className="flex align-items-center justify-content-center"
         style={{ height: "100%" }}
@@ -118,6 +119,18 @@ const AddMovies = () => {
               </div>
             </div>
           </div>
+          <div className="card flex justify-content-end">
+            <Button
+              label="Adicionar filme"
+              onClick={() => {
+                console.log("seus dados agora: ", newMovie);
+                addNewMovie(newMovie);
+                setTimeout(() => {
+                  window.location.reload();
+                }, 250);
+              }}
+            />
+          </div>
         </div>
         <img
           className="ml-4"
@@ -127,18 +140,6 @@ const AddMovies = () => {
               : "https://img.icons8.com/?size=100&id=0uYcfoG9OUaw&format=png"
           }
           alt=""
-        />
-      </div>
-      <div className="card flex justify-content-end">
-        <Button
-          label="Adicionar filme"
-          onClick={() => {
-            console.log("seus dados agora: ", newMovie);
-            addNewMovie(newMovie);
-            setTimeout(() => {
-              window.location.reload();
-            }, 250);
-          }}
         />
       </div>
     </AddMoviesBackground>

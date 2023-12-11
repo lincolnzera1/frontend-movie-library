@@ -18,12 +18,12 @@ const MenuItems = () => {
     {
       label: "Lista de usuários",
       icon: "pi pi-fw pi-pencil",
-    //   command: () => navigate("/projetos"),
+      command: () => navigate("/usuarios"),
     },
     {
       label: "Cadastrar usuário",
       icon: "pi pi-fw pi-user",
-    //   command: () => navigate("/aniversariantes"),
+      command: () => navigate("/usuarios/adicionar"),
     },
   ];
 
