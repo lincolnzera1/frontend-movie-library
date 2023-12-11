@@ -3,7 +3,11 @@ import { DataView, DataViewLayoutOptions } from "primereact/dataview";
 import axios from "axios";
 import "primeicons/primeicons.css";
 import { Menubar } from "primereact/menubar";
-import { deleteMovie, getData } from "../../controller/movieController";
+import {
+  deleteMovie,
+  getData,
+  getSpecificMovie,
+} from "../../controller/movieController";
 import { PostCard } from "./styles";
 import ModalView from "../../components/ModalView/ModalView";
 import { Button } from "primereact/button";
@@ -11,6 +15,7 @@ import ModalEdit from "../../components/ModalEdit/ModalEdit";
 import ModalAdd from "../../components/ModalAdd/ModalAdd";
 import MenuItems from "../../components/HeaderBar/MenuItems";
 import Appbar from "../../components/HeaderBar/Appbar";
+import { InputText } from "primereact/inputtext";
 
 export interface Movie {
   id?: number;
@@ -139,11 +144,32 @@ function Movies() {
     setVisibilityAdd(false);
   };
 
+  const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    // Use async/await to wait for the result of the asynchronous function
+    const specificMovies = await getSpecificMovie(value);
+
+    // Update the state with the result
+    setDados(specificMovies);
+  };
+
   return (
     <>
       <Appbar />
       <div className="card">
-        <DataView value={dados} itemTemplate={itemTemplate} layout={"grid"} />
+        <DataView
+          value={dados}
+          itemTemplate={itemTemplate}
+          layout={"grid"}
+          header={
+            <InputText
+              type="text"
+              placeholder="Pesquisar filme"
+              onChange={handleSearchChange}
+            />
+          }
+        />
         {visibility ? (
           <ModalView
             movie={dadosModal}

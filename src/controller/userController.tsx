@@ -45,7 +45,6 @@ export const addNewUser = async (newMovie: UserInterface) => {
 export const loginUser = async (user: UserInterface) => {
   try {
     const response = await axios.post("http://localhost:8080/user/login", user);
-    console.log("Usuário logado: ", user.username!);
     localStorage.setItem("username", user.username!);
     setTimeout(() => {
       window.location.reload();
