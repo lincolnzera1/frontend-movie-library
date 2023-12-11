@@ -6,23 +6,24 @@ const MenuItems = () => {
 
   const items = [
     {
-      title: "Catálogo de filmes",
+      label: "Catálogo de filmes",
       icon: "pi pi-fw pi-user",
+      command: () => navigate("/filmes"),
     },
     {
-      title: "Adicionar Filmes",
+      label: "Adicionar Filmes",
       icon: "pi pi-fw pi-briefcase",
-      command: () => navigate("/"),
+      command: () => navigate("/filmes/adicionar"),
     },
     {
-      title: "Lista de usuários",
+      label: "Lista de usuários",
       icon: "pi pi-fw pi-pencil",
-      command: () => navigate("/projetos"),
+    //   command: () => navigate("/projetos"),
     },
     {
-      title: "Cadastrar usuário",
+      label: "Cadastrar usuário",
       icon: "pi pi-fw pi-user",
-      command: () => navigate("/aniversariantes"),
+    //   command: () => navigate("/aniversariantes"),
     },
   ];
 

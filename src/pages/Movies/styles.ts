@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const PostCard = styled.div`
+export const PostCard = styled.img`
   cursor: pointer;
   transition: transform 0.2s ease-in-out; /* Adiciona uma transição suave à transformação */
 
