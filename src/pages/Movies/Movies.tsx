@@ -3,9 +3,17 @@ import { DataView, DataViewLayoutOptions } from "primereact/dataview";
 import axios from "axios";
 import "primeicons/primeicons.css";
 import { Menubar } from "primereact/menubar";
-import { getData } from "../../controller/movieController";
+import { deleteMovie, getData } from "../../controller/movieController";
+import { PostCard } from "./styles";
+import ModalView from "../../components/ModalView/ModalView";
+import { Button } from "primereact/button";
+import ModalEdit from "../../components/ModalEdit/ModalEdit";
+import ModalAdd from "../../components/ModalAdd/ModalAdd";
+import MenuItems from "../../components/HeaderBar/MenuItems";
+import Appbar from "../../components/HeaderBar/Appbar";
 
-interface Movie {
+export interface Movie {
+  id?: number;
   title: string;
   releaseYear: string;
   genre: string;
@@ -16,6 +24,10 @@ interface Movie {
 
 function Movies() {
   const [dados, setDados] = useState();
+  const [visibility, setVisibility] = useState<boolean>(false);
+  const [visibilityEdition, setVisibilityEdition] = useState<boolean>(false);
+  const [visibilityAdd, setVisibilityAdd] = useState<boolean>(false);
+  const [dadosModal, setDadosModal] = useState<Movie>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,22 +47,48 @@ function Movies() {
       <div className="col-12 sm:col-6 lg:col-4 xl:col-2 p-3">
         <div className="p-0">
           <div className="flex flex-column align-items-center gap-3">
-            <img
+            <PostCard
               className=" shadow-2 border-round"
               style={{
                 width: "100%",
               }}
-              src={`${movies.image}`}
+              src={movies.image}
+              onClick={() => {
+                setVisibility(true);
+                setDadosModal(movies);
+              }}
             />
-            <div className="text-2xl font-bold" style={{ textAlign: "center" }}>
+            <div
+              className="text-base sm:text-lg xl:text-lg font-semibold "
+              style={{ textAlign: "center" }}
+            >
               {movies.title}
             </div>
           </div>
-          <div className="flex align-items-center justify-content-center">
-            <span className="text-2xl flex align-items-center justify-content-between">
+          <div className="flex align-items-center justify-content-between">
+            <Button
+              icon="pi pi-trash"
+              className="p-button-rounded bg-red-500"
+              onClick={() => {
+                console.log("id a ser deletado: ", movies.title);
+                deleteMovie(movies.id!);
+                setTimeout(() => {
+                  window.location.reload();
+                }, 250);
+              }}
+            ></Button>
+            <span className="text-base sm:text-lg xl:text-1xl flex align-items-center justify-content-between">
               <i className="pi pi-star mr-2" style={{ fontSize: "1.2rem" }}></i>
               {movies.rating}
             </span>
+            <Button
+              icon="pi pi-file-edit"
+              className="p-button-rounded bg-green-500"
+              onClick={() => {
+                setDadosModal(movies);
+                setVisibilityEdition(true);
+              }}
+            ></Button>
           </div>
         </div>
       </div>
@@ -89,11 +127,46 @@ function Movies() {
     },
   ];
 
+  const fecharModalView = () => {
+    setVisibility(false);
+  };
+
+  const fecharModalEdit = () => {
+    setVisibilityEdition(false);
+  };
+
+  const fecharModalAdd = () => {
+    setVisibilityAdd(false);
+  };
+
   return (
     <>
-      <Menubar model={items} />
+      <Appbar />
       <div className="card">
         <DataView value={dados} itemTemplate={itemTemplate} layout={"grid"} />
+        {visibility ? (
+          <ModalView
+            movie={dadosModal}
+            visibilidade={visibility}
+            fecharModalView={fecharModalView}
+          />
+        ) : null}
+
+        {visibilityEdition ? (
+          <ModalEdit
+            movie={dadosModal}
+            visibilidade={visibilityEdition}
+            fecharModalEdit={fecharModalEdit}
+          />
+        ) : null}
+
+        {visibilityAdd ? (
+          <ModalAdd
+            movie={dadosModal}
+            visibilidade={visibilityAdd}
+            fecharModalAdd={fecharModalAdd}
+          />
+        ) : null}
       </div>
     </>
   );

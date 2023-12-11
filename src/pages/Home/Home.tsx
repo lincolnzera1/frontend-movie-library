@@ -32,7 +32,7 @@ const Home = () => {
     return (
       <div className="col-12 sm:col-6 lg:col-4 xl:col-3 p-3">
         <MenuItem
-          className="menu-item border-3 surface-border border-round flex flex-column align-items-center justify-content-center"
+          className="border-3 surface-border border-round flex flex-column align-items-center justify-content-center"
           style={{
             padding: 50,
             height: 300,
