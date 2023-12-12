@@ -3,9 +3,9 @@
 Este é o frontend do projeto Movie Library, uma aplicação de biblioteca de filmes.
 
 ## Tecnologias Utilizadas
-
-- **Framework:** React com TypeScript
+ 
 - **Bibliotecas:**
+  - React
   - Axios: Para realizar requisições HTTP.
   - PrimeReact: Uma biblioteca de componentes React com temas do PrimeNG.
   - React Router Dom: Para navegação entre páginas.
