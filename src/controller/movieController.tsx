@@ -12,7 +12,9 @@ export const getData = async () => {
 
 export const getSpecificMovie = async (search: string) => {
   try {
-    const response = await axios.get(`http://localhost:8080/movie?title=${search}`);
+    const response = await axios.get(
+      `http://localhost:8080/movie?title=${search}`
+    );
     return response.data.slice(0, response.data.length);
   } catch (error) {
     console.error("Erro ao buscar dados:", error);

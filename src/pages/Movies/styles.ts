@@ -8,4 +8,8 @@ export const PostCard = styled.img`
   &:hover {
     transform: scale(1.05); /* Aumenta levemente o tamanho ao passar o mouse */
   }
+
+  @media (min-width: 1200px) {
+    /* height: 416px; */
+  }
 `;

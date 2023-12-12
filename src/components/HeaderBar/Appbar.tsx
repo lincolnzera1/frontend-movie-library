@@ -25,6 +25,7 @@ const Appbar = () => {
                 className="bg-red-600"
                 onClick={() => {
                   localStorage.removeItem("username");
+                  localStorage.removeItem("userId");
                   setTimeout(() => {
                     window.location.reload();
                   }, 250);

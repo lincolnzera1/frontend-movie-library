@@ -12,11 +12,22 @@ import {
   DialogCustom,
   ModalEditBackground,
 } from "./ModalEditStyles";
+import { Divider } from "primereact/divider";
+import {
+  addNewRating,
+  getRatingByUserIdAndMovieId,
+  updateRatingValue,
+} from "../../controller/ratingController";
 
 interface ModalEditProps {
   movie?: Movie;
   visibilidade?: boolean;
   fecharModalEdit: () => void;
+}
+
+export interface RatingObject {
+  id?: string; // ou o tipo correto para o ID, como number ou outro
+  ratingValue: string; // ou o tipo correto para o valor da avaliação
 }
 
 const ModalEdit: React.FC<ModalEditProps> = ({
@@ -67,12 +78,39 @@ const ModalEdit: React.FC<ModalEditProps> = ({
     });
   }, [title, releaseYear, genre, rating, synopsis, image]);
 
+  const [userRating, setUserRating] = useState<RatingObject>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userId = parseInt(localStorage.getItem("userId")!);
+        const movieId = movie!.id!;
+
+        const rating = await getRatingByUserIdAndMovieId(userId, movieId);
+        setUserRating({ id: rating.id, ratingValue: rating.ratingValue });
+      } catch (error) {
+        console.error("Erro ao obter o rating:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <ModalEditBackground className="card flex justify-content-center">
       <DialogCustom
         draggable={false}
         dismissableMask
-        header="Detalhes do filme"
+        header={
+          <div className="flex align-items-center">
+            <Button
+              icon="pi pi-file-edit"
+              className="p-button-rounded bg-green-500 mr-1"
+              disabled
+            ></Button>
+            Editar filme
+          </div>
+        }
         visible={visibilidade}
         onHide={() => {
           fecharModalEdit();
@@ -109,7 +147,7 @@ const ModalEdit: React.FC<ModalEditProps> = ({
               src={movie?.image}
             />
             <div>
-              <p className="flex align-items-center gap-1">
+              <p className="flex align-items-center  gap-1">
                 <strong>Sinopse</strong>:
                 <InputTextarea
                   autoResize
@@ -144,12 +182,31 @@ const ModalEdit: React.FC<ModalEditProps> = ({
                   className="pi pi-star mr-2"
                   style={{ fontSize: "1.2rem" }}
                 ></i>
-                <strong className="mr-1">Rating: </strong>
+                <strong className="mr-1">Rating imdb: </strong>
                 <InputText
                   type="number"
                   className="p-inputtext-sm"
                   value={rating.toString()}
                   onChange={(e) => setRating(parseInt(e.target.value))}
+                />
+              </p>
+              <p>
+                <i
+                  className="pi pi-star mr-2"
+                  style={{ fontSize: "1.2rem" }}
+                ></i>
+                <strong className="mr-1">Rating do usuário: </strong>
+                <InputText
+                  type="number"
+                  className="p-inputtext-sm"
+                  value={userRating?.ratingValue.toString()}
+                  onChange={(e) => {
+                    setUserRating({
+                      // id: userRating!.id,
+                      ratingValue: e.target.value,
+                    });
+                    // console.log("valor de: ", userRating?.ratingValue);
+                  }}
                 />
               </p>
               <div>
@@ -161,21 +218,45 @@ const ModalEdit: React.FC<ModalEditProps> = ({
                   onChange={(e) => setImage(e.target.value)}
                 />
               </div>
+              <Divider />
+
+              <div className="card flex justify-content-center">
+                <Button
+                  label="Editar"
+                  className="bg-green-500"
+                  onClick={() => {
+                    console.log("seus dados agora: ", newMovie);
+                    updateMovie(newMovie!, movie!.id!);
+                    console.log(
+                      "meu id de usuario: ",
+                      parseInt(localStorage.getItem("userId")!)
+                    );
+                    console.log("meu id de Filme: ", movie!.id!);
+
+                    userRating?.id !== undefined
+                      ? updateRatingValue(
+                          parseInt(userRating!.id!),
+                          parseInt(userRating!.ratingValue!)
+                        )
+                      : addNewRating({
+                          user: {
+                            id: parseInt(localStorage.getItem("userId")!),
+                          },
+                          movie: {
+                            id: movie!.id!,
+                          },
+                          ratingValue: parseInt(userRating!.ratingValue!),
+                        });
+
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 250);
+                  }}
+                />
+              </div>
             </div>
           </CardChild>
         </CardCustom>
-        <div className="card flex justify-content-end">
-          <Button
-            label="Editar"
-            onClick={() => {
-              console.log("seus dados agora: ", newMovie);
-              updateMovie(newMovie!, movie!.id!);
-              setTimeout(() => {
-                window.location.reload();
-              }, 250); 
-            }}
-          />
-        </div>
       </DialogCustom>
     </ModalEditBackground>
   );
