@@ -37,7 +37,7 @@ No menu inicial, oferecemos uma variedade de opções para explorar e interagir 
 Explore a coleção completa de filmes disponíveis.
 Visualize detalhes sobre cada filme e clique nos posters para obter informações mais detalhadas.
 ## Adicionar Filmes:
-
+Ao adicionar uma imagem de um filme, pegue um poster do site https://www.movieposters.com/ de preferencia
 Acrescente novos títulos à biblioteca para mantê-la sempre atualizada e diversificada.
 ## Editar Filmes:
 
