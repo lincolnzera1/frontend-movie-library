@@ -225,13 +225,7 @@ const ModalEdit: React.FC<ModalEditProps> = ({
                   label="Editar"
                   className="bg-green-500"
                   onClick={() => {
-                    console.log("seus dados agora: ", newMovie);
                     updateMovie(newMovie!, movie!.id!);
-                    console.log(
-                      "meu id de usuario: ",
-                      parseInt(localStorage.getItem("userId")!)
-                    );
-                    console.log("meu id de Filme: ", movie!.id!);
 
                     userRating?.id !== undefined
                       ? updateRatingValue(
@@ -245,7 +239,9 @@ const ModalEdit: React.FC<ModalEditProps> = ({
                           movie: {
                             id: movie!.id!,
                           },
-                          ratingValue: parseInt(userRating!.ratingValue!),
+                          ratingValue: userRating
+                            ? parseInt(userRating!.ratingValue!)
+                            : 0,
                         });
 
                     setTimeout(() => {
