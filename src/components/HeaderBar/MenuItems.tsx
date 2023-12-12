@@ -28,7 +28,7 @@ const MenuItems = () => {
     {
       label: "Cadastrar usuário",
       icon: "pi pi-fw pi-plus",
-      command: () => navigate("/usuarios/adicionar"),
+      command: () => navigate("/usuarios/adicionar"), 
     },
   ];
 
