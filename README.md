@@ -54,7 +54,14 @@ Registre-se na aplicação para ter acesso a funcionalidades exclusivas, como av
 Avaliações Personalizadas:
 Com um usuário logado, você pode avaliar os filmes.
 Suas avaliações são privadas e visíveis apenas para você, proporcionando uma experiência personalizada.
-##Navegação
+## Navegação
 **Header da Página:**
 Acesse rapidamente as funcionalidades principais a partir do cabeçalho da página.
 Faça login para desbloquear recursos exclusivos.
+
+## Estrutura do Projeto
+O projeto do frontend está organizado da seguinte forma:
+
+- Controller: Contém todas as requisições à API, garantindo uma separação clara entre a lógica de negócios e a comunicação com o backend.
+- Pages: Inclui todas as páginas do projeto. Cada página representa uma visualização específica da aplicação, como a lista de filmes, a página de detalhes de um filme, etc.
+- Components: Agrupa todos os componentes reutilizáveis da aplicação, como modais e a barra de navegação (AppBar). Essa estrutura facilita a modularização e manutenção do código, permitindo que componentes específicos sejam facilmente reutilizados em diferentes partes da aplicação.
