@@ -8,6 +8,7 @@ import { Button } from "primereact/button";
 import { Movie } from "../Movies/Movies";
 import { addNewMovie } from "../../controller/movieController";
 import Appbar from "../../components/HeaderBar/Appbar";
+import { useNavigate } from "react-router-dom";
 
 const AddMovies = () => {
   const [title, setTitle] = useState<string>("");
@@ -38,6 +39,7 @@ const AddMovies = () => {
     });
   }, [title, releaseYear, genre, rating, synopsis, image]);
 
+  const navigate = useNavigate();
   return (
     <AddMoviesBackground>
       <Appbar />
@@ -123,10 +125,10 @@ const AddMovies = () => {
             <Button
               label="Adicionar filme"
               onClick={() => {
-                console.log("seus dados agora: ", newMovie);
                 addNewMovie(newMovie);
+
                 setTimeout(() => {
-                  window.location.reload();
+                  navigate("/filmes");
                 }, 250);
               }}
             />
