@@ -19,18 +19,25 @@ const Home = () => {
     },
     {
       title: "Adicionar Filmes",
+      url: "filmes/adicionar",
+    },
+    {
+      title: "Editar Filmes",
+      url: "filmes",
     },
     {
       title: "Lista de usuários",
+      url: "usuarios",
     },
     {
       title: "Cadastrar usuário",
+      url: "usuarios/adicionar",
     },
   ];
 
   const gridItem = (movies: Menu) => {
     return (
-      <div className="col-12 sm:col-6 lg:col-4 xl:col-3 p-3">
+      <div className="col-12 sm:col-6 lg:col-4 xl:col-4 p-3">
         <MenuItem
           className="border-3 surface-border border-round flex flex-column align-items-center justify-content-center"
           style={{
@@ -38,7 +45,18 @@ const Home = () => {
             height: 300,
             cursor: "pointer",
           }}
-          onClick={() => (movies.url ? navigate(`/${movies.url}`) : null)}
+          onClick={() =>
+            movies.url
+              ? navigate(
+                  `/${movies.url}`,
+                  movies.title === "Editar Filmes"
+                    ? {
+                        state: { id: 1, name: "um" },
+                      }
+                    : undefined
+                )
+              : null
+          }
         >
           <div className="flex flex-column align-items-center justify-content-center gap-3">
             <span
@@ -71,7 +89,7 @@ const Home = () => {
     opacity: isVisible ? 1 : 0,
     transform: isVisible ? "translateY(20)" : "translateY(0px)",
     from: { opacity: 0, transform: "translateY(0px)" },
-    config: { duration: 800 },
+    config: { duration: 1000 },
   });
 
   return (

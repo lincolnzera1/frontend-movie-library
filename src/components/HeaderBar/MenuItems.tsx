@@ -6,6 +6,11 @@ const MenuItems = () => {
 
   const items = [
     {
+      label: "Início",
+      icon: "pi pi-fw pi-user",
+      command: () => navigate("/"),
+    },
+    {
       label: "Catálogo de filmes",
       icon: "pi pi-fw pi-user",
       command: () => navigate("/filmes"),

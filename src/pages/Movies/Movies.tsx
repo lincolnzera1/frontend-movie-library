@@ -3,7 +3,11 @@ import { DataView, DataViewLayoutOptions } from "primereact/dataview";
 import axios from "axios";
 import "primeicons/primeicons.css";
 import { Menubar } from "primereact/menubar";
-import { deleteMovie, getData } from "../../controller/movieController";
+import {
+  deleteMovie,
+  getData,
+  getSpecificMovie,
+} from "../../controller/movieController";
 import { PostCard } from "./styles";
 import ModalView from "../../components/ModalView/ModalView";
 import { Button } from "primereact/button";
@@ -11,6 +15,8 @@ import ModalEdit from "../../components/ModalEdit/ModalEdit";
 import ModalAdd from "../../components/ModalAdd/ModalAdd";
 import MenuItems from "../../components/HeaderBar/MenuItems";
 import Appbar from "../../components/HeaderBar/Appbar";
+import { InputText } from "primereact/inputtext";
+import { useLocation } from "react-router-dom";
 
 export interface Movie {
   id?: number;
@@ -28,12 +34,20 @@ function Movies() {
   const [visibilityEdition, setVisibilityEdition] = useState<boolean>(false);
   const [visibilityAdd, setVisibilityAdd] = useState<boolean>(false);
   const [dadosModal, setDadosModal] = useState<Movie>();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const movies = await getData();
         setDados(movies);
+        location.state !== null
+          ? setVisibilityEdition(true)
+          : setVisibilityEdition(false);
+        location.state !== null
+          ? setDadosModal(movies[0])
+          : setVisibilityEdition(false);
+
         console.log("Seus dados: ", movies);
       } catch (error) {
         console.error("Error fetching movies:", error);
@@ -67,15 +81,12 @@ function Movies() {
           </div>
           <div className="flex align-items-center justify-content-between">
             <Button
+                style={{
+                    border: 0
+                }}
               icon="pi pi-trash"
-              className="p-button-rounded bg-red-500"
-              onClick={() => {
-                console.log("id a ser deletado: ", movies.title);
-                deleteMovie(movies.id!);
-                setTimeout(() => {
-                  window.location.reload();
-                }, 250);
-              }}
+              className="bg-transparent"
+              disabled
             ></Button>
             <span className="text-base sm:text-lg xl:text-1xl flex align-items-center justify-content-between">
               <i className="pi pi-star mr-2" style={{ fontSize: "1.2rem" }}></i>
@@ -87,6 +98,7 @@ function Movies() {
               onClick={() => {
                 setDadosModal(movies);
                 setVisibilityEdition(true);
+                localStorage.setItem("movieId", movies.id!.toString());
               }}
             ></Button>
           </div>
@@ -103,47 +115,45 @@ function Movies() {
     if (layout === "grid") return gridItem(movies);
   };
 
-  const items = [
-    {
-      label: "Filmes",
-      icon: "pi pi-fw pi-file",
-      items: [
-        {
-          label: "Adicionar filme",
-          icon: "pi pi-fw pi-plus",
-        },
-        {
-          label: "Delete",
-          icon: "pi pi-fw pi-trash",
-        },
-        {
-          separator: true,
-        },
-        {
-          label: "Export",
-          icon: "pi pi-fw pi-external-link",
-        },
-      ],
-    },
-  ];
-
   const fecharModalView = () => {
     setVisibility(false);
   };
 
   const fecharModalEdit = () => {
     setVisibilityEdition(false);
+    window.history.replaceState({}, document.title);
   };
 
   const fecharModalAdd = () => {
     setVisibilityAdd(false);
   };
 
+  const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    // Use async/await to wait for the result of the asynchronous function
+    const specificMovies = await getSpecificMovie(value);
+
+    // Update the state with the result
+    setDados(specificMovies);
+  };
+
   return (
     <>
       <Appbar />
       <div className="card">
-        <DataView value={dados} itemTemplate={itemTemplate} layout={"grid"} />
+        <DataView
+          value={dados}
+          itemTemplate={itemTemplate}
+          layout={"grid"}
+          header={
+            <InputText
+              type="text"
+              placeholder="Pesquisar filme"
+              onChange={handleSearchChange}
+            />
+          }
+        />
         {visibility ? (
           <ModalView
             movie={dadosModal}

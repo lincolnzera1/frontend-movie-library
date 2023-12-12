@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DataView, DataViewLayoutOptions } from "primereact/dataview";
 import { Button } from "primereact/button";
-import { getUserList } from "../../controller/userController";
+import { deleteUser, getUserList } from "../../controller/userController";
 import MenuItems from "../../components/HeaderBar/MenuItems";
 import { Menubar } from "primereact/menubar";
 
@@ -48,6 +48,16 @@ const Users = () => {
                 </span>
               </div>
             </div>
+            <Button
+              label="Deletar usuário"
+              className="bg-red-600"
+              onClick={() => {
+                deleteUser(user.id!);
+                setTimeout(() => {
+                  window.location.reload();
+                }, 250);
+              }}
+            ></Button>
           </div>
         </div>
       </div>

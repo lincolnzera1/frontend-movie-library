@@ -23,11 +23,6 @@ export const updateUser = async (movie: UserInterface, id: number) => {
 export const deleteUser = async (id: number) => {
   try {
     const response = await axios.delete(`http://localhost:8080/user/${id}`);
-
-    // Verifica se a requisição foi bem-sucedida
-    if (response.status === 200) {
-      console.log(`Filme com ID ${id} excluído com sucesso.`);
-    }
   } catch (error) {
     console.error("Erro ao excluir o filme:", error);
   }
@@ -45,8 +40,8 @@ export const addNewUser = async (newMovie: UserInterface) => {
 export const loginUser = async (user: UserInterface) => {
   try {
     const response = await axios.post("http://localhost:8080/user/login", user);
-    console.log("Usuário logado: ", user.username!);
-    localStorage.setItem("username", user.username!);
+    localStorage.setItem("username", response.data.username);
+    localStorage.setItem("userId", response.data.id);
     setTimeout(() => {
       window.location.reload();
     }, 250);
