@@ -12,23 +12,23 @@ const MenuItems = () => {
     },
     {
       label: "Catálogo de filmes",
-      icon: "pi pi-fw pi-user",
+      icon: "pi pi-fw pi-align-center",
       command: () => navigate("/filmes"),
     },
     {
       label: "Adicionar Filmes",
-      icon: "pi pi-fw pi-briefcase",
+      icon: "pi pi-fw pi-plus",
       command: () => navigate("/filmes/adicionar"),
     },
     {
       label: "Lista de usuários",
-      icon: "pi pi-fw pi-pencil",
+      icon: "pi pi-fw pi-align-center",
       command: () => navigate("/usuarios"),
     },
     {
       label: "Cadastrar usuário",
-      icon: "pi pi-fw pi-user",
-      command: () => navigate("/usuarios/adicionar"),
+      icon: "pi pi-fw pi-plus",
+      command: () => navigate("/usuarios/adicionar"), 
     },
   ];
 
