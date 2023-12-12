@@ -10,6 +10,7 @@ import { AddMoviesBackground } from "../AddMovies/AddMoviesStyles";
 import { UserInterface } from "../Users/Users";
 import { addNewUser } from "../../controller/userController";
 import Appbar from "../../components/HeaderBar/Appbar";
+import { useNavigate } from "react-router-dom";
 
 const AddUsers = () => {
   const [username, setUsername] = useState<string>("");
@@ -30,6 +31,8 @@ const AddUsers = () => {
       password: password,
     });
   }, [username, email, password]);
+  
+  const navigate = useNavigate();
 
   return (
     <AddMoviesBackground>
@@ -84,7 +87,7 @@ const AddUsers = () => {
                 console.log("seus dados agora: ", newUser);
                 addNewUser(newUser);
                 setTimeout(() => {
-                  window.location.reload();
+                  navigate("/usuarios")
                 }, 250);
               }}
             />
